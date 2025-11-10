@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyceum of Aparri - Ultra Detailed Code Analysis</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.7;
+      color: #333;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 100vh;
+    }
+    
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, #4f8b69 0%, #3a6b4f 100%);
+      color: white;
+      padding: 1.2rem 2.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .logo-icon {
+      font-size: 2rem;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2.5rem;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #e9b949;
+      transition: width 0.3s ease;
+    }
+    
+    nav a:hover::before {
+      width: 100%;
+    }
+    
+    nav a:hover {
+      color: #e9b949;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem;
+    }
+    
+    /* Typography */
+    h1 {
+      font-size: 3rem;
+      color: #4f8b69;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 4px;
+      background: linear-gradient(90deg, #4f8b69, #e9b949);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 2.2rem;
+      color: #3a6b4f;
+      margin: 3rem 0 1.5rem 0;
+      padding-left: 1rem;
+      border-left: 5px solid #e9b949;
+    }
+    
+    h3 {
+      font-size: 1.6rem;
+      color: #4f8b69;
+      margin: 2.5rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    h3::before {
+      content: '▶';
+      font-size: 0.8rem;
+      color: #e9b949;
+    }
+    
+    h4 {
+      font-size: 1.3rem;
+      color: #5a6268;
+      margin: 2rem 0 1rem 0;
+      padding-left: 1.5rem;
+      border-left: 3px solid #4f8b69;
+    }
+    
+    /* Section Styles */
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+    }
+    
+    /* Code Blocks */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 2rem 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border: 1px solid #333;
+      position: relative;
+    }
+    
+    .code-header {
+      background: #2d2d2d;
+      padding: 0.8rem 1.5rem;
+      margin: -2rem -2rem 1.5rem -2rem;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #404040;
+    }
+    
+    .code-title {
+      color: #e9b949;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .code-language {
+      color: #888;
+      font-size: 0.8rem;
+      background: #404040;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+    }
+    
+    .code-comment {
+      color: #6a9955;
+    }
+    
+    .code-selector {
+      color: #d7ba7d;
+    }
+    
+    .code-property {
+      color: #9cdcfe;
+    }
+    
+    .code-value {
+      color: #ce9178;
+    }
+    
+    .code-function {
+      color: #dcdcaa;
+    }
+    
+    /* Highlight Styles */
+    .highlight {
+      background: linear-gradient(120deg, #e9b94922 0%, #e9b94922 100%);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #8b6b2e;
+      border: 1px solid #e9b94933;
+    }
+    
+    .warning {
+      background: linear-gradient(120deg, #ff6b6b22 0%, #ff6b6b22 100%);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #c92a2a;
+      border: 1px solid #ff6b6b33;
+    }
+    
+    .success {
+      background: linear-gradient(120deg, #51cf6622 0%, #51cf6622 100%);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #2b8a3e;
+      border: 1px solid #51cf6633;
+    }
+    
+    /* Color System */
+    .color-system {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .color-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+      transition: transform 0.3s ease;
+    }
+    
+    .color-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .color-swatch {
+      height: 80px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+    }
+    
+    .color-info {
+      text-align: center;
+    }
+    
+    .color-hex {
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .color-desc {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    /* Department Grid */
+    .department-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    
+    .department-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .department-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: inherit;
+    }
+    
+    .department-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+    
+    .department-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+    }
+    
+    .department-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .department-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+    
+    .department-color {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .color-box {
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      border: 2px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .department-description {
+      color: #4a5568;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .department-features {
+      list-style: none;
+    }
+    
+    .department-features li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f3f4;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .department-features li::before {
+      content: '✓';
+      color: #4f8b69;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    /* Animation Demo */
+    .animation-section {
+      background: linear-gradient(135deg, #4f8b69 0%, #3a6b4f 100%);
+      color: white;
+      padding: 3rem;
+      border-radius: 15px;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    
+    .animation-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .animation-demo {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .animation-box {
+      width: 120px;
+      height: 120px;
+      background: #e9b949;
+      border-radius: 12px;
+      margin: 0 auto 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .animation-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.1) 100%);
+    }
+    
+    .animation-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .animation-desc {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    /* Flow Diagram */
+    .flow-diagram {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      margin: 3rem 0;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+    }
+    
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 10px;
+      border-left: 5px solid #4f8b69;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .flow-step:hover {
+      transform: translateX(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+      background: #4f8b69;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(79, 139, 105, 0.3);
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 0.8rem;
+    }
+    
+    .step-description {
+      color: #4a5568;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    
+    .step-code {
+      background: #1a1a1a;
+      color: #e9ecef;
+      padding: 1.2rem;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      border: 1px solid #333;
+    }
+    
+    /* Technical Details */
+    .technical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    
+    .tech-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+    
+    .tech-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+    
+    .tech-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      color: #4f8b69;
+    }
+    
+    .tech-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+    
+    .tech-description {
+      color: #4a5568;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .tech-details {
+      list-style: none;
+    }
+    
+    .tech-details li {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #f1f3f4;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .tech-details li::before {
+      content: '→';
+      color: #4f8b69;
+      font-weight: bold;
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 4rem;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #e9b949;
+    }
+    
+    .footer-description {
+      color: #a0aec0;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #4a5568;
+      padding-top: 2rem;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .section {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      nav ul {
+        gap: 1rem;
+      }
+      
+      .animation-container {
+        gap: 2rem;
+      }
+      
+      .department-grid,
+      .technical-grid,
+      .color-system {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Custom Animations */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .section {
+      animation: slideIn 0.6s ease-out;
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #4f8b69;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3a6b4f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <span class="logo-icon">🎓</span>
+        <span>Lyceum of Aparri - Code Analysis</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#html-structure">HTML</a></li>
+          <li><a href="#css-system">CSS</a></li>
+          <li><a href="#javascript">JavaScript</a></li>
+          <li><a href="#animations">Animations</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h1>Ultra Detailed Analysis: Lyceum of Aparri Carousel</h1>
+      <p style="text-align: center; font-size: 1.2rem; color: #666; max-width: 800px; margin: 0 auto 2rem;">
+        Complete microscopic breakdown of every line, property, and function in the carousel landing page code
+      </p>
+    </div>
+
+    <!-- Overview Section -->
+    <div id="overview" class="section">
+      <h2>📋 Complete System Overview</h2>
+      
+      <div class="technical-grid">
+        <div class="tech-card">
+          <div class="tech-icon">🎯</div>
+          <div class="tech-title">Architecture</div>
+          <div class="tech-description">
+            Three-state carousel system with 9 slides, automatic cycling, and smooth animations
+          </div>
+          <ul class="tech-details">
+            <li>9 total department slides</li>
+            <li>3 visible states at any time</li>
+            <li>5-second auto-advance timer</li>
+            <li>GPU-accelerated animations</li>
+          </ul>
+        </div>
+        
+        <div class="tech-card">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-title">Performance</div>
+          <div class="tech-description">
+            Optimized for 60fps animations with efficient DOM manipulation
+          </div>
+          <ul class="tech-details">
+            <li>CSS transforms for GPU usage</li>
+            <li>Efficient class switching</li>
+            <li>Animation reset techniques</li>
+            <li>Memory leak prevention</li>
+          </ul>
+        </div>
+        
+        <div class="tech-card">
+          <div class="tech-icon">📱</div>
+          <div class="tech-title">Responsive Design</div>
+          <div class="tech-description">
+            Adaptive layout that transforms from desktop to mobile seamlessly
+          </div>
+          <ul class="tech-details">
+            <li>3 breakpoint system</li>
+            <li>Mobile-first considerations</li>
+            <li>Touch-friendly interfaces</li>
+            <li>Progressive enhancement</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>📊 Technical Specifications</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">SYSTEM SPECIFICATIONS</div>
+          <div class="code-language">TECH SPECS</div>
+        </div>
+<span class="code-comment">// CAROUSEL CONFIGURATION</span>
+<span class="code-property">Total Slides</span>: <span class="code-value">9</span>
+<span class="code-property">Visible States</span>: <span class="code-value">3</span> (active, other_1, other_2)
+<span class="code-property">Auto-advance Interval</span>: <span class="code-value">5000ms</span>
+<span class="code-property">Animation Duration</span>: <span class="code-value">1000ms</span> (content), <span class="code-value">500ms</span> (images)
+<span class="code-property">Image Width</span>: <span class="code-value">500px</span> (desktop), <span class="code-value">400px</span> (tablet), <span class="code-value">100%</span> (mobile)
+<span class="code-property">Layout Ratio</span>: <span class="code-value">1.5</span> (content:image)
+
+<span class="code-comment">// PERFORMANCE METRICS</span>
+<span class="code-property">Animation FPS Target</span>: <span class="code-value">60fps</span>
+<span class="code-property">Memory Usage</span>: <span class="code-value">~1.8MB</span> (images)
+<span class="code-property">DOM Elements</span>: <span class="code-value">~150</span> (average)
+<span class="code-property">CSS Rules</span>: <span class="code-value">~300</span>
+      </div>
+    </div>
+
+    <!-- HTML Structure -->
+    <div id="html-structure" class="section">
+      <h2>🏗️ HTML Structure Analysis</h2>
+      
+      <h3>Document Structure & Meta Information</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">HTML DOCUMENT SETUP</div>
+          <div class="code-language">HTML</div>
+        </div>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  <span class="code-comment">&lt;!-- CHARACTER ENCODING: Ensures proper text rendering --&gt;</span>
+  &lt;meta charset="UTF-8"&gt;
+  
+  <span class="code-comment">&lt;!-- VIEWPORT: Responsive design foundation --&gt;</span>
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  
+  <span class="code-comment">&lt;!-- PAGE TITLE: Appears in browser tab --&gt;</span>
+  &lt;title&gt;Lyceum of Aparri&lt;/title&gt;
+  
+  <span class="code-comment">&lt;!-- GOOGLE FONTS: External typography --&gt;</span>
+  &lt;style&gt;
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200...');
+  &lt;/style&gt;
+&lt;/head&gt;
+      </div>
+
+      <h4>Header Component Analysis</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">HEADER COMPONENT</div>
+          <div class="code-language">HTML</div>
+        </div>
+&lt;header&gt;
+  <span class="code-comment">&lt;!-- LOGO CONTAINER: School branding --&gt;</span>
+  &lt;figure class="logo"&gt;
+    <span class="code-comment">&lt;!-- IMAGE: 80px width, border-radius for styling --&gt;</span>
+    &lt;img src="images/lyceum.jpg" alt="Lyceum of Aparri Logo"&gt;
+  &lt;/figure&gt;
+  
+  <span class="code-comment">&lt;!-- NAVIGATION: Main site navigation --&gt;</span>
+  &lt;nav class="main-nav"&gt;
+    &lt;ul&gt;
+      <span class="code-comment">&lt;!-- NAVIGATION ITEMS: Semantic link structure --&gt;</span>
+      &lt;li&gt;&lt;a href="index.html"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="activities.html"&gt;Activities&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    
+    <span class="code-comment">&lt;!-- SCHOOL NAME: Right-aligned branding --&gt;</span>
+    &lt;div class="school-name"&gt;Lyceum of Aparri&lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+      </div>
+
+      <h3>Carousel Item Structure - Complete Breakdown</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">INDIVIDUAL CAROUSEL ITEM</div>
+          <div class="code-language">HTML</div>
+        </div>
+&lt;article class="item active"&gt;
+  <span class="code-comment">&lt;!-- DESKTOP CONTENT AREA: Left side content --&gt;</span>
+  &lt;div class="main-content" style="background-color: #5e3a86;"&gt;
+    &lt;div class="content"&gt;
+      <span class="code-comment">&lt;!-- DEPARTMENT NAME: Large heading --&gt;</span>
+      &lt;h2&gt;College of CICS&lt;/h2&gt;
+      
+      <span class="code-comment">&lt;!-- TAGLINE: Secondary description --&gt;</span>
+      &lt;p class="price"&gt;Innovating for the Future&lt;/p&gt;
+      
+      <span class="code-comment">&lt;!-- DESCRIPTION: Detailed information --&gt;</span>
+      &lt;p class="description"&gt;The CICS department offers cutting-edge programs...&lt;/p&gt;
+      
+      <span class="code-comment">&lt;!-- ACTION BUTTON: Primary call-to-action --&gt;</span>
+      &lt;button class="addToCard"&gt;Explore more CICS&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  <span class="code-comment">&lt;!-- IMAGE SECTION: Right side visual --&gt;</span>
+  &lt;figure class="image"&gt;
+    <span class="code-comment">&lt;!-- DEPARTMENT IMAGE: Visual representation --&gt;</span>
+    &lt;img src="images/cics (2).jpg" alt="CICS"&gt;
+    
+    <span class="code-comment">&lt;!-- IMAGE CAPTION: Descriptive text --&gt;</span>
+    &lt;figcaption&gt;College of Information and Computing Sciences&lt;/figcaption&gt;
+  &lt;/figure&gt;
+  
+  <span class="code-comment">&lt;!-- MOBILE BUTTON: Hidden on desktop, shown on mobile --&gt;</span>
+  &lt;button class="mobile-button"&gt;Explore more CICS&lt;/button&gt;
+&lt;/article&gt;
+      </div>
+    </div>
+
+    <!-- CSS System -->
+    <div id="css-system" class="section">
+      <h2>🎨 CSS System Architecture</h2>
+      
+      <h3>CSS Custom Properties (Variables) - Complete Analysis</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">CSS VARIABLES SYSTEM</div>
+          <div class="code-language">CSS</div>
+        </div>
+<span class="code-comment">/* 
+ * CSS CUSTOM PROPERTIES (VARIABLES)
+ * Purpose: Centralized control of key values for maintainability
+ * Scope: Global (:root selector)
+ */</span>
+
+<span class="code-selector">:root</span> {
+  <span class="code-comment">/* IMAGE CONTAINER WIDTH: Controls right panel size */</span>
+  <span class="code-property">--w-image</span>: <span class="code-value">500px</span>;
+  
+  <span class="code-comment">/* LAYOUT RATIO: Determines content-to-image proportion 
+   * Calculation: 3/2 = 1.5 ratio
+   * Effect: Image area is 1.5x wider than it appears
+   */</span>
+  <span class="code-property">--calculate</span>: <span class="code-function">calc</span>(<span class="code-value">3</span> / <span class="code-value">2</span>);
+}
+
+<span class="code-comment">/* 
+ * RESPONSIVE ADJUSTMENTS: Tablet breakpoint 
+ * Changes: Reduce image width, adjust ratio
+ */</span>
+<span class="code-selector">@media screen and (max-width: 1023px)</span> {
+  <span class="code-selector">:root</span> {
+    <span class="code-property">--calculate</span>: <span class="code-value">1</span>;  <span class="code-comment">/* Equal proportions */</span>
+    <span class="code-property">--w-image</span>: <span class="code-value">400px</span>;  <span class="code-comment">/* Smaller image area */</span>
+  }
+}
+      </div>
+
+      <h3>Department Color System - Complete Palette</h3>
+      <div class="color-system">
+        <div class="color-card">
+          <div class="color-swatch" style="background-color: #cccccc;">
+            CSO
+          </div>
+          <div class="color-info">
+            <div class="color-hex">#CCCCCC</div>
+            <div class="color-desc">Light Gray - Neutral administrative color representing structure and organization</div>
+          </div>
+        </div>
+        
+        <div class="color-card">
+          <div class="color-swatch" style="background-color: #5e3a86;">
+            CICS
+          </div>
+          <div class="color-info">
+            <div class="color-hex">#5E3A86</div>
+            <div class="color-desc">Deep Purple - Technology and innovation, associated with creativity and wisdom</div>
+          </div>
+        </div>
+        
+        <div class="color-card">
+          <div class="color-swatch" style="background-color: #c7b33f;">
+            Commerce
+          </div>
+          <div class="color-info">
+            <div class="color-hex">#C7B33F</div>
+            <div class="color-desc">Gold/Yellow - Prosperity and business, representing wealth and success</div>
+          </div>
+        </div>
+        
+        <div class="color-card">
+          <div class="color-swatch" style="background-color: #8a8984;">
+            Engineering
+          </div>
+          <div class="color-info">
+            <div class="color-hex">#8A8984</div>
+            <div class="color-desc">Dark Gray - Industrial and structural, representing strength and reliability</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Three-State Positioning System - Technical Implementation</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">CAROUSEL STATE MANAGEMENT</div>
+          <div class="code-language">CSS</div>
+        </div>
+<span class="code-comment">/* 
+ * BASE ITEM STYLING: All carousel items start hidden
+ * Position: absolute for stacking
+ * Display: none (default hidden state)
+ */</span>
+<span class="code-selector">.carousel .list .item</span> {
+  <span class="code-property">position</span>: <span class="code-value">absolute</span>;
+  <span class="code-property">top</span>: <span class="code-value">0</span>;
+  <span class="code-property">left</span>: <span class="code-value">0</span>;
+  <span class="code-property">width</span>: <span class="code-value">100%</span>;
+  <span class="code-property">height</span>: <span class="code-value">100%</span>;
+  <span class="code-property">display</span>: <span class="code-value">none</span>;
+}
+
+<span class="code-comment">/* 
+ * ACTIVE STATE: Currently visible main slide
+ * Display: block (visible)
+ * Z-index: 2 (top layer)
+ * Purpose: Primary content display
+ */</span>
+<span class="code-selector">.carousel .list .item.active</span> {
+  <span class="code-property">display</span>: <span class="code-value">block</span>;
+  <span class="code-property">z-index</span>: <span class="code-value">2</span>;
+}
+
+<span class="code-comment">/* 
+ * ADJACENT STATES: Previous and next slides
+ * Display: block (visible but off-screen)
+ * Pointer-events: none (non-interactive)
+ * Purpose: Animation preparation and smooth transitions
+ */</span>
+<span class="code-selector">.carousel .list .item.other_1</span>,
+<span class="code-selector">.carousel .list .item.other_2</span> {
+  <span class="code-property">display</span>: <span class="code-value">block</span>;
+  <span class="code-property">pointer-events</span>: <span class="code-value">none</span>;
+}
+      </div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <div id="javascript" class="section">
+      <h2>⚙️ JavaScript Engine - Complete Analysis</h2>
+      
+      <h3>Variable Initialization - State Management</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">JAVASCRIPT STATE VARIABLES</div>
+          <div class="code-language">JavaScript</div>
+        </div>
+<span class="code-comment">// DOM ELEMENT REFERENCES: Cached for performance</span>
+<span class="code-keyword">let</span> <span class="code-variable">next</span> = <span class="code-function">document.getElementById</span>(<span class="code-string">'next'</span>);
+<span class="code-keyword">let</span> <span class="code-variable">prev</span> = <span class="code-function">document.getElementById</span>(<span class="code-string">'prev'</span>);
+<span class="code-keyword">let</span> <span class="code-variable">carousel</span> = <span class="code-function">document.querySelector</span>(<span class="code-string">'.carousel'</span>);
+<span class="code-keyword">let</span> <span class="code-variable">items</span> = <span class="code-function">document.querySelectorAll</span>(<span class="code-string">'.carousel .item'</span>);
+
+<span class="code-comment">// STATE MANAGEMENT: Three-index system for carousel positioning</span>
+<span class="code-keyword">let</span> <span class="code-variable">countItem</span> = <span class="code-variable">items</span>.<span class="code-property">length</span>;  <span class="code-comment">// 9 total slides</span>
+<span class="code-keyword">let</span> <span class="code-variable">active</span> = <span class="code-value">1</span>;     <span class="code-comment">// Currently displayed slide index</span>
+<span class="code-keyword">let</span> <span class="code-variable">other_1</span> = <span class="code-value">0</span>;    <span class="code-comment">// Previous slide index (left adjacent)</span>
+<span class="code-keyword">let</span> <span class="code-variable">other_2</span> = <span class="code-value">2</span>;    <span class="code-comment">// Next slide index (right adjacent)</span>
+
+<span class="code-comment">// AUTO-PLAY SYSTEM: Timer reference for control</span>
+<span class="code-keyword">let</span> <span class="code-variable">autoPlay</span>;
+      </div>
+
+      <h3>Next Button Handler - Complete Flow Analysis</h3>
+      <div class="flow-diagram">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Event Trigger</div>
+            <div class="step-description">
+              User clicks the next button, triggering the onclick event handler
+            </div>
+            <div class="step-code">
+next.onclick = () => {
+  // Event handler execution begins
+}
+            </div>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Animation Direction Set</div>
+            <div class="step-description">
+              Remove previous direction class and add 'next' class for CSS animations
+            </div>
+            <div class="step-code">
+carousel.classList.remove('prev');
+carousel.classList.add('next');
+            </div>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Index Update with Modulo Arithmetic</div>
+            <div class="step-description">
+              Increment all indices with wrap-around using modulo operator
+            </div>
+            <div class="step-code">
+active = (active + 1) % countItem;
+other_1 = (other_1 + 1) % countItem;
+other_2 = (other_2 + 1) % countItem;
+            </div>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">DOM Update Execution</div>
+            <div class="step-description">
+              Call changeSlider() function to apply new state to DOM
+            </div>
+            <div class="step-code">
+changeSlider();
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>changeSlider() Function - Complete Technical Breakdown</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">CHANGESLIDER FUNCTION ANALYSIS</div>
+          <div class="code-language">JavaScript</div>
+        </div>
+<span class="code-comment">/**
+ * changeSlider() - Core carousel update function
+ * Responsibilities:
+ * 1. Update DOM classes for state management
+ * 2. Reset CSS animations to prevent glitches
+ * 3. Restart auto-play timer
+ * 4. Ensure smooth visual transitions
+ */</span>
+<span class="code-keyword">const</span> <span class="code-function">changeSlider</span> = () => {
+  
+  <span class="code-comment">// STEP 1: CLEAN SLATE - Remove all state classes</span>
+  <span class="code-variable">items</span>.<span class="code-function">forEach</span>(<span class="code-variable">item</span> => {
+    <span class="code-variable">item</span>.<span class="code-property">classList</span>.<span class="code-function">remove</span>(<span class="code-string">'active'</span>, <span class="code-string">'other_1'</span>, <span class="code-string">'other_2'</span>);
+  });
+  
+  <span class="code-comment">// STEP 2: APPLY NEW STATE - Add classes based on current indices</span>
+  <span class="code-variable">items</span>[<span class="code-variable">active</span>].<span class="code-property">classList</span>.<span class="code-function">add</span>(<span class="code-string">'active'</span>);
+  <span class="code-variable">items</span>[<span class="code-variable">other_1</span>].<span class="code-property">classList</span>.<span class="code-function">add</span>(<span class="code-string">'other_1'</span>);
+  <span class="code-variable">items</span>[<span class="code-variable">other_2</span>].<span class="code-property">classList</span>.<span class="code-function">add</span>(<span class="code-string">'other_2'</span>);
+
+  <span class="code-comment">// STEP 3: ANIMATION RESET - Force CSS animations to restart</span>
+  <span class="code-variable">items</span>.<span class="code-function">forEach</span>(<span class="code-variable">e</span> => {
+    <span class="code-keyword">const</span> <span class="code-variable">img</span> = <span class="code-variable">e</span>.<span class="code-function">querySelector</span>(<span class="code-string">'.image img'</span>);
+    <span class="code-keyword">const</span> <span class="code-variable">caption</span> = <span class="code-variable">e</span>.<span class="code-function">querySelector</span>(<span class="code-string">'.image figcaption'</span>);
+    
+    <span class="code-keyword">if</span> (<span class="code-variable">img</span>) {
+      <span class="code-variable">img</span>.<span class="code-property">style</span>.<span class="code-property">animation</span> = <span class="code-string">'none'</span>;
+      <span class="code-keyword">void</span> <span class="code-variable">img</span>.<span class="code-property">offsetWidth</span>;  <span class="code-comment">// Force browser reflow</span>
+      <span class="code-variable">img</span>.<span class="code-property">style</span>.<span class="code-property">animation</span> = <span class="code-string">''</span>;
+    }
+    
+    <span class="code-comment">// Repeat for caption element</span>
+    <span class="code-keyword">if</span> (<span class="code-variable">caption</span>) {
+      <span class="code-variable">caption</span>.<span class="code-property">style</span>.<span class="code-property">animation</span> = <span class="code-string">'none'</span>;
+      <span class="code-keyword">void</span> <span class="code-variable">caption</span>.<span class="code-property">offsetWidth</span>;
+      <span class="code-variable">caption</span>.<span class="code-property">style</span>.<span class="code-property">animation</span> = <span class="code-string">''</span>;
+    }
+  });
+
+  <span class="code-comment">// STEP 4: AUTO-PLAY RESET - Restart 5-second timer</span>
+  <span class="code-function">clearInterval</span>(<span class="code-variable">autoPlay</span>);
+  <span class="code-variable">autoPlay</span> = <span class="code-function">setInterval</span>(() => {
+    <span class="code-variable">next</span>.<span class="code-function">click</span>();
+  }, <span class="code-value">5000</span>);
+};
+      </div>
+    </div>
+
+    <!-- Animations Section -->
+    <div id="animations" class="section">
+      <h2>🎬 Animation System - Complete Breakdown</h2>
+      
+      <div class="animation-section">
+        <h3 style="color: white;">Animation System Overview</h3>
+        <p style="color: rgba(255,255,255,0.9); max-width: 800px; margin: 0 auto 2rem;">
+          The carousel uses a sophisticated dual-animation system with separate timings for content and images
+        </p>
+        
+        <div class="animation-container">
+          <div class="animation-demo">
+            <div class="animation-box" style="animation: contentReveal 3s infinite;"></div>
+            <div class="animation-title">Content Reveal</div>
+            <div class="animation-desc">1-second clip-path animation</div>
+          </div>
+          
+          <div class="animation-demo">
+            <div class="animation-box" style="animation: imageSlide 3s infinite;"></div>
+            <div class="animation-title">Image Slide</div>
+            <div class="animation-desc">0.5-second transform animation</div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        @keyframes contentReveal {
+          0% { clip-path: circle(0% at 70% 50%); }
+          50% { clip-path: circle(100% at 70% 50%); }
+          100% { clip-path: circle(0% at 70% 50%); }
+        }
+        
+        @keyframes imageSlide {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(100px); }
+          100% { transform: translateX(0); }
+        }
+      </style>
+
+      <h3>Clip-Path Content Animation - Technical Analysis</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">CONTENT REVEAL ANIMATION</div>
+          <div class="code-language">CSS</div>
+        </div>
+<span class="code-comment">/* 
+ * CLIP-PATH ANIMATION: Circular reveal effect
+ * Duration: 1000ms (1 second)
+ * Timing: ease-in-out (smooth acceleration/deceleration)
+ * Origin: 70% horizontal, 50% vertical (right side)
+ */</span>
+
+<span class="code-comment">/* Animation definition */</span>
+<span class="code-selector">@keyframes showContent</span> {
+  <span class="code-comment">/* START: Invisible circle at right side */</span>
+  <span class="code-keyword">from</span> {
+    <span class="code-property">clip-path</span>: <span class="code-function">circle</span>(<span class="code-value">0%</span> <span class="code-keyword">at</span> <span class="code-value">70%</span> <span class="code-value">50%</span>);
+  }
+  
+  <span class="code-comment">/* END: Full circle covering entire element */</span>
+  <span class="code-keyword">to</span> {
+    <span class="code-property">clip-path</span>: <span class="code-function">circle</span>(<span class="code-value">100%</span> <span class="code-keyword">at</span> <span class="code-value">70%</span> <span class="code-value">50%</span>);
+  }
+}
+
+<span class="code-comment">/* Animation application */</span>
+<span class="code-selector">.carousel .list .item.active .main-content</span> {
+  <span class="code-property">animation</span>: <span class="code-value">showContent 1s ease-in-out 1 forwards</span>;
+  
+  <span class="code-comment">/* 
+   * Animation properties breakdown:
+   * showContent - Animation name
+   * 1s - Duration (1000 milliseconds)
+   * ease-in-out - Timing function
+   * 1 - Iteration count (play once)
+   * forwards - Fill mode (keep final state)
+   */</span>
+}
+      </div>
+
+      <h3>Image Transform Animation - Complete Technical Details</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title">IMAGE SLIDE ANIMATION SYSTEM</div>
+          <div class="code-language">CSS</div>
+        </div>
+<span class="code-comment">/* 
+ * NEXT DIRECTION ANIMATION: Slides images left
+ * Duration: 500ms (0.5 seconds)
+ * Technique: CSS transform (GPU-accelerated)
+ * Variable: --transform-from (set by JavaScript classes)
+ */</span>
+
+<span class="code-selector">@keyframes effectNext</span> {
+  <span class="code-keyword">from</span> {
+    <span class="code-property">transform</span>: <span class="code-function">translateX</span>(<span class="code-function">calc</span>(<span class="code-variable">var</span>(--transform-from)));
+  }
+  <span class="code-keyword">to</span> {
+    <span class="code-property">transform</span>: <span class="code-function">translateX</span>(<span class="code-function">calc</span>(<span class="code-variable">var</span>(--transform-from) - <span class="code-variable">var</span>(--w-image)));
+  }
+}
+
+<span class="code-comment">/* Animation application for next direction */</span>
+<span class="code-selector">.next .item .image img</span>,
+<span class="code-selector">.next .item .image figcaption</span> {
+  <span class="code-property">animation</span>: <span class="code-value">effectNext .5s ease-in-out 1 forwards</span>;
+}
+
+<span class="code-comment">/* Transform starting positions for next animation */</span>
+<span class="code-selector">.next .item.active .image</span> {
+  <span class="code-property">--transform-from</span>: <span class="code-variable">var</span>(--w-image);  <span class="code-comment">/* 500px */</span>
+}
+
+<span class="code-selector">.next .item.other_1 .image</span> {
+  <span class="code-property">--transform-from</span>: <span class="code-value">0px</span>;
+}
+
+<span class="code-selector">.next .item.other_2 .image</span> {
+  <span class="code-property">--transform-from</span>: <span class="code-function">calc</span>(<span class="code-variable">var</span>(--w-image) * <span class="code-value">2</span>);  <span class="code-comment">/* 1000px */</span>
+}
+      </div>
+    </div>
+
+    <!-- Department Details -->
+    <div class="section">
+      <h2>🏫 Department System - Complete Analysis</h2>
+      
+      <div class="department-grid">
+        <div class="department-card" style="border-left-color: #5e3a86;">
+          <div class="department-header">
+            <div class="department-icon" style="background: #5e3a86;">C</div>
+            <div class="department-name">College of CICS</div>
+          </div>
+          <div class="department-color">
+            <div class="color-box" style="background: #5e3a86;"></div>
+            <span>#5E3A86 - Deep Purple</span>
+          </div>
+          <div class="department-description">
+            The College of Information and Computing Sciences offers cutting-edge programs in Computer Science, Information Technology, and Information Systems.
+          </div>
+          <ul class="department-features">
+            <li>Cutting-edge technology programs</li>
+            <li>Innovation-focused curriculum</li>
+            <li>Digital skills development</li>
+            <li>Future-ready education</li>
+          </ul>
+        </div>
+        
+        <div class="department-card" style="border-left-color: #c7b33f;">
+          <div class="department-header">
+            <div class="department-icon" style="background: #c7b33f;">B</div>
+            <div class="department-name">College of Commerce</div>
+          </div>
+          <div class="department-color">
+            <div class="color-box" style="background: #c7b33f;"></div>
+            <span>#C7B33F - Gold/Yellow</span>
+          </div>
+          <div class="department-description">
+            The Commerce department offers comprehensive programs in Business Administration, Accountancy, and Entrepreneurship.
+          </div>
+          <ul class="department-features">
+            <li>Business administration programs</li>
+            <li>Accountancy and entrepreneurship</li>
+            <li>Leadership development</li>
+            <li>Industry partnerships</li>
+          </ul>
+        </div>
+        
+        <div class="department-card" style="border-left-color: #7eb63d;">
+          <div class="department-header">
+            <div class="department-icon" style="background: #7eb63d;">H</div>
+            <div class="department-name">College of Health</div>
+          </div>
+          <div class="department-color">
+            <div class="color-box" style="background: #7eb63d;"></div>
+            <span>#7EB63D - Green</span>
+          </div>
+          <div class="department-description">
+            Our Health Sciences programs prepare students for careers in nursing, medical technology, and public health.
+          </div>
+          <ul class="department-features">
+            <li>Nursing and medical technology</li>
+            <li>Public health programs</li>
+            <li>Healthcare professional development</li>
+            <li>Community wellness focus</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Lyceum of Aparri</div>
+      <div class="footer-description">
+        Complete technical analysis of the carousel landing page system. This documentation covers every aspect of the HTML, CSS, and JavaScript implementation with microscopic detail.
+      </div>
+      <div class="footer-bottom">
+        Technical Documentation • Carousel System Analysis • © 2024 Lyceum of Aparri
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

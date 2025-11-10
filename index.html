@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyceum of Aparri</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    body {
+        font-family: Poppins;
+        margin: 0;
+        font-size: 16px;
+        background-color: #4f8b69;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+    }
+
+    :root {
+        --w-image: 500px;
+        --calculate: calc(3 / 2);
+    }
+
+    header {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        grid-template-rows: 80px;
+        position: relative;
+        z-index: 10;
+        background-color: white;
+        padding: 0 20px;
+    }
+
+    header .logo img {
+        width: 80%;
+        border-radius: 20px;
+    }
+
+    header .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 20px;
+    }
+
+    header nav a {
+        color: #000;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    header nav a:hover {
+        color: #4f8b69;
+    }
+
+    header nav ul {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .school-name {
+        font-family: 'Aboreto', serif;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #4f8b69;
+        text-align: right;
+    }
+
+    .carousel {
+        margin-top: -80px;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .carousel .list {
+        height: 100%;
+        position: relative;
+    }
+
+    .carousel .list::after {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        content: '';
+        background-color: red;
+        width: 400px;
+        height: 300px;
+        z-index: 10;
+        pointer-events: none;
+        border-radius: 20px 50px 110px 230px;
+        filter: blur(150px);
+        opacity: .6;
+    }
+
+    .carousel .list .item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    .carousel .list .item .image {
+        width: var(--w-image);
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: calc(100% - calc(var(--w-image) * var(--calculate)));
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .carousel .list .item .image img {
+        width: 90%;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 150px 50px #9e0c0c55);
+        border-radius: 20px;
+    }
+
+    .carousel .list .item .image figcaption {
+        font-family: 'Aboreto';
+        font-weight: bold;
+        font-size: 1.3em;
+        text-align: right;
+        margin-bottom: 30px;
+        width: 70%;
+    }
+
+    .carousel .list .item .main-content {
+        height: 100%;
+        display: grid;
+        grid-template-columns: calc(100% - calc(var(--w-image) * var(--calculate)));
+    }
+
+    .carousel .list .item .main-content .content {
+        padding: 150px 20px 20px 80px;
+    }
+
+    .carousel .list .item .main-content .content h2 {
+        font-size: 5em;
+        font-family: 'Aboreto';
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel .list .item .main-content .content .price {
+        font-family: 'Aboreto';
+        font-size: 3em;
+        margin: 20px 0;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel .list .item .main-content .content .description {
+        color: white;
+        font-size: 1.1em;
+        line-height: 1.6;
+        max-width: 80%;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel .list .item .main-content .content .addToCard {
+        background-color: #4f8b69;
+        color: #fff;
+        padding: 10px 30px;
+        font-family: Poppins;
+        font-size: large;
+        font-weight: 500;
+        border-radius: 30px;
+        border: none;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .carousel .list .item .main-content .content .addToCard:hover {
+        background-color: #3a6b4f;
+        transform: translateY(-2px);
+    }
+
+    .arrows {
+        position: absolute;
+        bottom: 20px;
+        width: calc(100% - calc(var(--w-image) * var(--calculate)));
+        display: grid;
+        grid-template-columns: repeat(2, 50px);
+        grid-template-rows: 50px;
+        justify-content: end;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    .arrows button {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-family: monospace;
+        font-size: large;
+        font-weight: bold;
+        line-height: 0;
+        box-shadow: 0 10px 40px #5555;
+        cursor: pointer;
+        transition: 0.5s;
+        border-radius: 50%;
+    }
+
+    .arrows button:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .carousel .list .item.active,
+    .carousel .list .item.other_1,
+    .carousel .list .item.other_2 {
+        display: block;
+    }
+
+    .carousel .list .item.active {
+        z-index: 2;
+    }
+
+    .carousel .list .item.other_1,
+    .carousel .list .item.other_2 {
+        pointer-events: none;
+    }
+
+    .carousel .list .item.active .main-content {
+        animation: showContent 1s ease-in-out 1 forwards;
+    }
+
+    @keyframes showContent {
+        from {
+            clip-path: circle(0% at 70% 50%);
+        }
+        to {
+            clip-path: circle(100% at 70% 50%);
+        }
+    }
+
+    .next .item.other_1 {
+        z-index: 1;
+    }
+
+    .next .item .image img,
+    .next .item .image figcaption {
+        animation: effectNext .5s ease-in-out 1 forwards;
+    }
+
+    @keyframes effectNext {
+        from {
+            transform: translateX(calc(var(--transform-from)));
+        }
+        to {
+            transform: translateX(calc(var(--transform-from) - var(--w-image)));
+        }
+    }
+
+    .next .item.active .image {
+        --transform-from: var(--w-image);
+    }
+
+    .next .item.other_1 .image {
+        z-index: 3;
+        --transform-from: 0px;
+        overflow: hidden;
+    }
+
+    .next .item.other_2 .image {
+        z-index: 3;
+        --transform-from: calc(var(--w-image) * 2);
+    }
+
+    .prev .list .item .image img,
+    .prev .list .item .image figcaption {
+        animation: effectPrev 0.5s ease-in-out 1 forwards;
+    }
+
+    @keyframes effectPrev {
+        from {
+            transform: translateX(calc(var(--transform-from)));
+        }
+        to {
+            transform: translateX(calc(var(--transform-from) + var(--w-image)));
+        }
+    }
+
+    .prev .list .item.active .image {
+        --transform-from: calc(var(--w-image) * -1);
+        overflow: hidden;
+    }
+
+    .prev .list .item.other_1 .image {
+        --transform-from: 0px;
+        z-index: 3;
+    }
+
+    .prev .list .item.other_2 {
+        z-index: 3;
+    }
+
+    .prev .list .item.other_2 .image {
+        --transform-from: var(--w-image);
+    }
+
+    .prev .list .item.other_2 .main-content {
+        opacity: 0;
+    }
+
+    @media screen and (max-width: 1023px) {
+        :root {
+            --calculate: 1;
+            --w-image: 400px;
+        }
+        
+        .carousel .list .item .main-content .content h2 {
+            font-size: 3em;
+        }
+        
+        .school-name {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        header {
+            grid-template-columns: 60px 1fr;
+            grid-template-rows: 60px;
+            padding: 0 10px;
+        }
+        
+        .carousel {
+            margin-top: -60px;
+        }
+        
+        .carousel .list .item .image {
+            width: 100%;
+            left: 0;
+            justify-content: flex-start;
+            padding-top: 80px;
+        }
+        
+        .carousel .list .item .image img {
+            width: 80%;
+            max-width: 300px;
+        }
+        
+        .carousel .list .item .image figcaption {
+            color: #fff;
+            width: 90%;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .carousel .list .item .main-content .content {
+            display: none;
+        }
+
+        /* Mobile button styling */
+        .carousel .list .item .mobile-button {
+            display: block;
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            background-color: #4f8b69;
+            color: #fff;
+            padding: 12px 35px;
+            font-family: Poppins;
+            font-size: 1em;
+            font-weight: 500;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel .list .item .mobile-button:hover {
+            background-color: #3a6b4f;
+            transform: translateX(-50%) translateY(-2px);
+        }
+        
+        .arrows {
+            left: 50%;
+            transform: translateX(-50%);
+            justify-content: center;
+            width: 100%;
+            bottom: 15px;
+        }
+        
+        .school-name {
+            display: none;
+        }
+        
+        header nav ul {
+            gap: 15px;
+        }
+
+        .carousel .list::after {
+            width: 200px;
+            height: 200px;
+            top: 30px;
+            left: 30px;
+        }
+    }
+
+   /* Hide mobile button on desktop */
+    @media screen and (min-width: 768px) {
+        .carousel .list .item .mobile-button {
+            display: none;
+        }
+    }
+
+    /* Hide mobile buttons on non-active items on mobile */
+    @media screen and (max-width: 767px) {
+        .carousel .list .item .mobile-button {
+            display: none;
+        }
+        
+        .carousel .list .item.active .mobile-button {
+            display: block;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <figure class="logo">
+      <img src="images/lyceum.jpg" alt="Lyceum of Aparri Logo">
+    </figure>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="school-name">Lyceum of Aparri</div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="carousel next">
+      <div class="list">
+
+        <!-- CSO -->
+        <article class="item other_1">
+          <div class="main-content" style="background-color: #cccccc;">
+            <div class="content">
+              <h2>CSO</h2>
+              <p class="price">Central Student Organization</p>
+              <p class="description">
+                    Welcome to the Central Student Organization portal. Here you can check your attendance records, view upcoming events, and stay connected with all campus activities. The CSO works to enhance student life and represent student interests across all departments.
+              </p>
+              <button class="addToCard">Check your attendance</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/cso.jpg" alt="CSO">
+            <figcaption>Central Student Organization</figcaption>
+          </figure>
+          <button class="mobile-button">Check your attendance</button>
+        </article>
+
+        <!-- CICS -->
+        <article class="item active">
+          <div class="main-content" style="background-color: #5e3a86;">
+            <div class="content">
+              <h2>College of CICS</h2>
+              <p class="price">Innovating for the Future</p>
+              <p class="description">
+                   The CICS department offers cutting-edge programs in Computer Science, Information Technology, and Information Systems. Our curriculum is designed to equip students with the technical skills and innovative mindset needed to thrive in the rapidly evolving digital landscape.
+              </p>
+              <button class="addToCard">Explore more CICS</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/cics.jpg" alt="CICS">
+            <figcaption>College of Information and Computing Sciences</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more CICS</button>
+        </article>
+
+        <!-- Commerce -->
+        <article class="item other_2">
+          <div class="main-content" style="background-color: #c7b33f;">
+            <div class="content">
+              <h2>College of Commerce</h2>
+              <p class="price">Shaping Business Leaders</p>
+              <p class="description">
+                   The Commerce department offers comprehensive programs in Business Administration, Accountancy, and Entrepreneurship. We develop future business leaders through rigorous academic training, practical experiences, and ethical business practices.
+              </p>
+              <button class="addToCard">Explore more Commerce</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/commerce.jpg" alt="Commerce">
+            <figcaption>College of Commerce</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Commerce</button>
+        </article>
+
+         <!-- Engineering -->
+        <article class="item">
+          <div class="main-content" style="background-color: #8a8984;">
+            <div class="content">
+              <h2>College of Engineering</h2>
+              <p class="price">The Builders of the Future</p>
+              <p class="description">
+                     Our Engineering programs provide students with strong technical foundations and problem-solving skills. Through hands-on projects and industry partnerships, we prepare engineers who can design, innovate, and implement solutions for complex challenges.
+              </p>
+              <button class="addToCard">Explore more Engineering</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/engineering.jpg" alt="Engineering">
+            <figcaption>College of Engineering</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Engineering</button>
+        </article>
+
+        <!-- Health -->
+        <article class="item">
+          <div class="main-content" style="background-color: #7eb63d;">
+            <div class="content">
+              <h2>College of Health</h2>
+              <p class="price">Caring for Community Wellness</p>
+              <p class="description">
+                  Our Health Sciences programs prepare students for careers in nursing, medical technology, and public health. With state-of-the-art laboratories and experienced faculty, we develop healthcare professionals committed to serving communities with compassion and expertise.
+              </p>
+              <button class="addToCard">Explore more Health</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/health.jpg" alt="Health">
+            <figcaption>College of Health</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Health</button>
+        </article>
+
+        <!-- Liberal Arts -->
+        <article class="item">
+          <div class="main-content" style="background-color: #1945a3;">
+            <div class="content">
+              <h2>College of Liberal Arts</h2>
+              <p class="price">Exploring Human Expression</p>
+              <p class="description">
+                   The Liberal Arts department offers programs in Communication, Psychology, and Political Science. We foster critical thinking, effective communication, and cultural awareness to prepare students for diverse careers and meaningful civic engagement.
+              </p>
+              <button class="addToCard">Explore more Liberal Arts</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/liberal arts.jpg" alt="Liberal Arts">
+            <figcaption>College of Liberal Arts</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Liberal Arts</button>
+        </article>
+
+        <!-- Criminology -->
+        <article class="item">
+          <div class="main-content" style="background-color: #6086da;">
+            <div class="content">
+              <h2>College of Criminal Justice</h2>
+              <p class="description">
+                    The Criminology program prepares students for careers in law enforcement, corrections, and security administration. Our curriculum emphasizes ethical practice, forensic science, and criminal justice system operations to develop competent professionals.
+              </p>
+              <button class="addToCard">Explore more Criminology</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/criminilogy.jpg" alt="Criminology">
+            <figcaption>College of Criminal Justice</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Criminology</button>
+        </article>
+
+        <!-- Education -->
+        <article class="item">
+          <div class="main-content" style="background-color: #bd4a08;">
+            <div class="content">
+              <h2>College of Education</h2>
+              <p class="price">Shaping Future Educators</p>
+              <p class="description">
+                  Our Education programs prepare students to become effective teachers and educational leaders. Through rigorous coursework and practical teaching experiences, we develop educators who can inspire learning and make a positive impact in diverse educational settings.
+              </p>
+              <button class="addToCard">Explore more Education</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/educ.jpg" alt="Education">
+            <figcaption>College of Education</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more Education</button>
+        </article>
+
+        <!-- K-12 -->
+        <article class="item">
+          <div class="main-content" style="background-color: #a73632;">
+            <div class="content">
+              <h2>K-12 Education</h2>
+              <p class="price">Foundation of Lifelong Learning</p>
+              <p class="description">
+                   Our Basic Education program provides a strong academic foundation for elementary and high school students. We foster holistic development through a balanced curriculum that emphasizes academic excellence, character formation, and essential life skills.
+              </p>
+              <button class="addToCard">Explore more K-12</button>
+            </div>
+          </div>
+          <figure class="image">
+            <img src="images/basic ed.jpg" alt="K-12">
+            <figcaption>K-12 Education</figcaption>
+          </figure>
+          <button class="mobile-button">Explore more K-12</button>
+        </article>
+
+      </div>
+
+      <!-- Navigation Arrows -->
+      <div class="arrows">
+        <button id="prev">&lt;</button>
+        <button id="next">&gt;</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let next = document.getElementById('next');
+    let prev = document.getElementById('prev');
+    let carousel = document.querySelector('.carousel');
+    let items = document.querySelectorAll('.carousel .item');
+    let countItem = items.length;
+    let active = 1;
+    let other_1 = 0;
+    let other_2 = 2;
+
+    // Initialize the carousel
+    function initializeCarousel() {
+      items.forEach((item, index) => {
+        if (index === active) {
+          item.classList.add('active');
+        } else if (index === other_1) {
+          item.classList.add('other_1');
+        } else if (index === other_2) {
+          item.classList.add('other_2');
+        } else {
+          item.classList.remove('active', 'other_1', 'other_2');
+        }
+      });
+    }
+
+    next.onclick = () => {
+      carousel.classList.remove('prev');
+      carousel.classList.add('next');
+      
+      // Update indices
+      active = (active + 1) % countItem;
+      other_1 = (other_1 + 1) % countItem;
+      other_2 = (other_2 + 1) % countItem;
+      
+      changeSlider();
+    };
+
+    prev.onclick = () => {
+      carousel.classList.remove('next');
+      carousel.classList.add('prev');
+      
+      // Update indices
+      active = (active - 1 + countItem) % countItem;
+      other_1 = (other_1 - 1 + countItem) % countItem;
+      other_2 = (other_2 - 1 + countItem) % countItem;
+      
+      changeSlider();
+    };
+
+    const changeSlider = () => {
+      // Remove all classes first
+      items.forEach(item => {
+        item.classList.remove('active', 'other_1', 'other_2');
+      });
+      
+      // Add appropriate classes
+      items[active].classList.add('active');
+      items[other_1].classList.add('other_1');
+      items[other_2].classList.add('other_2');
+
+      // Reset and restart animations
+      items.forEach(e => {
+        const img = e.querySelector('.image img');
+        const caption = e.querySelector('.image figcaption');
+        
+        if (img) {
+          img.style.animation = 'none';
+          void img.offsetWidth; // Trigger reflow
+          img.style.animation = '';
+        }
+        
+        if (caption) {
+          caption.style.animation = 'none';
+          void caption.offsetWidth; // Trigger reflow
+          caption.style.animation = '';
+        }
+      });
+
+      // Reset autoplay
+      clearInterval(autoPlay);
+      autoPlay = setInterval(() => {
+        next.click();
+      }, 5000);
+    };
+
+    // Initialize carousel on page load
+    initializeCarousel();
+
+    let autoPlay = setInterval(() => {
+      next.click();
+    }, 5000);
+  </script>
+</body>
+</html>
